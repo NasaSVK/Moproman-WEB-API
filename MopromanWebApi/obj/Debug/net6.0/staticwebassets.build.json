@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "z2eGL6yVCxxNxHQJdmthz4nFZZ4zmVHoZjeTp0K2h7I=",
+  "Source": "MopromanWebApi",
+  "BasePath": "_content/MopromanWebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
