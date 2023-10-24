@@ -18,21 +18,18 @@ public partial class MopromanDbContext : DbContext
     public virtual DbSet<Record> Records { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("name=MopromanCS");
+        => optionsBuilder.UseSqlServer("Name=MopromanCS");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Record>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("record_pk");
+            entity.HasKey(e => e.Id).HasName("PK_records");
 
             entity.ToTable("record");
 
-            entity.HasIndex(e => e.Id, "record_id_index");
-
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.DateTime)
-                .HasDefaultValueSql("(((1999)-(1))-(1))")
                 .HasColumnType("datetime")
                 .HasColumnName("date_time");
             entity.Property(e => e.Napatie).HasColumnName("napatie");
@@ -41,15 +38,18 @@ public partial class MopromanDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("pec_id");
             entity.Property(e => e.Prud).HasColumnName("prud");
-            entity.Property(e => e.RzPribenie)
-                .HasComment("Rz-Prisposobenie")
-                .HasColumnName("rz_pribenie");
+            entity.Property(e => e.RzPribenie).HasColumnName("rz_pribenie");
             entity.Property(e => e.SobertVstup).HasColumnName("sobert_vstup");
             entity.Property(e => e.SobertVykon).HasColumnName("sobert_vykon");
             entity.Property(e => e.TVodaVstup).HasColumnName("t_voda_vstup");
             entity.Property(e => e.TVodaVystup).HasColumnName("t_voda_vystup");
             entity.Property(e => e.Tlak).HasColumnName("tlak");
             entity.Property(e => e.Vykon).HasColumnName("vykon");
+            entity.Property(e => e.Zmena)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasDefaultValueSql("('ZMENA-1')")
+                .HasColumnName("zmena");
         });
 
         OnModelCreatingPartial(modelBuilder);

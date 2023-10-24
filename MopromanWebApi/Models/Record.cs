@@ -21,9 +21,6 @@ public partial class Record
 
     public float? Vykon { get; set; }
 
-    /// <summary>
-    /// Rz-Prisposobenie
-    /// </summary>
     public float? RzPribenie { get; set; }
 
     public DateTime DateTime { get; set; }
@@ -31,4 +28,6 @@ public partial class Record
     public float? SobertVykon { get; set; }
 
     public float? Tlak { get; set; }
+
+    public string Zmena { get; set; } = null!;
 }
