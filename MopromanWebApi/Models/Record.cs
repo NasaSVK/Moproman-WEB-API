@@ -30,4 +30,14 @@ public partial class Record
     public float? Tlak { get; set; }
 
     public string Zmena { get; set; } = null!;
+
+    public float? Frekvencia { get; set; }
+
+    public float? TeplotaP1 { get; set; }
+
+    public float? TeplotaP2 { get; set; }
+
+    public float? TeplotaOkruh { get; set; }
+
+    public float? PrietokVody { get; set; }
 }

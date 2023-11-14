@@ -18,37 +18,38 @@ namespace MopromanWebApi.Controllers
         private readonly MopromanDbContext _context;
 
 
-        public RecordController(MopromanDbContext context) { 
-            _context = context; 
+        public RecordController(MopromanDbContext context)
+        {
+            _context = context;
         }
 
         [HttpGet]
         public IEnumerable<Record> Get()
         {
             //using (var context = new MopromanDbContext()) {      
-                return _context.Records.ToList();                    
+            return _context.Records.ToList();
             //}
         }
 
-            [HttpGet, Route("interval")]
-            public async Task<ActionResult> GetRecordsInPeriod(int recordID, DateTime dateStart, DateTime dateEnd)
-            {
+        [HttpGet, Route("interval")]
+        public async Task<ActionResult> GetRecordsInPeriod(int recordID, DateTime dateStart, DateTime dateEnd, string pecId, String? zmena)
+        {
 
-                DateTime OD = new DateTime(2023, 10, 13, 12, 0, 0);
-                
-                try
-                {
-                    var orders = await _context.Records.Where(reccord => reccord.DateTime <= dateEnd && reccord.DateTime >= dateStart).ToListAsync();
-                    //IList<Record> orders = await _context.Records.Where(record => record.DateTime > OD).ToListAsync<Record>(); //GetPeriodOrdersAsync(productCode, dateStart.ToUniversalTime(), dateEnd.ToUniversalTime());               
-                    return Ok(orders);
-              
-                }
-                
-                catch (Exception ex)
-                {
-                    return NotFound();
-                }
-            } 
+            DateTime OD = new DateTime(2023, 10, 13, 12, 0, 0);
+
+            try
+            {
+                var orders = await _context.Records.Where(reccord => reccord.DateTime <= dateEnd && reccord.DateTime >= dateStart && reccord.PecId == pecId && ((zmena == null || zmena == "VSETKY") ? true : zmena == reccord.Zmena)).ToListAsync();
+                //IList<Record> orders = await _context.Records.Where(record => record.DateTime > OD).ToListAsync<Record>(); //GetPeriodOrdersAsy; nc(productCode, dateStart.ToUniversalTime(), dateEnd.ToUniversalTime());               
+                return Ok(orders);
+
+            }
+
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
+        }
 
     }
 }
