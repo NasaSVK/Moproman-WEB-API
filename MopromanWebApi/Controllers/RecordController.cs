@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace MopromanWebApi.Controllers
 {
     [ApiController]
@@ -16,6 +17,7 @@ namespace MopromanWebApi.Controllers
     {
 
         private readonly MopromanDbContext _context;
+        private const int MAX_POCET_ZAZNAMOV = 1000000;
 
 
         public RecordController(MopromanDbContext context)
@@ -41,6 +43,7 @@ namespace MopromanWebApi.Controllers
             {
                 var orders = await _context.Records.Where(reccord => reccord.DateTime <= dateEnd && reccord.DateTime >= dateStart && reccord.PecId == pecId && ((zmena == null || zmena == "VSETKY") ? true : zmena == reccord.Zmena)).ToListAsync();
                 //IList<Record> orders = await _context.Records.Where(record => record.DateTime > OD).ToListAsync<Record>(); //GetPeriodOrdersAsy; nc(productCode, dateStart.ToUniversalTime(), dateEnd.ToUniversalTime());               
+                orders = Helpers.RedukujPocetHodnot(orders);                
                 return Ok(orders);
 
             }
@@ -50,6 +53,21 @@ namespace MopromanWebApi.Controllers
                 return NotFound();
             }
         }
+
+
+        //"BUSINISS LOGIC fro SampleService"
+        private async Task<ActionResult> DeleteOlderRecords() {
+            
+            int pocet_zaznamov = _context.Records.Count();
+            
+            if (pocet_zaznamov > MAX_POCET_ZAZNAMOV) {
+               List<Record> MazaneZaznamy = await _context.Records.Take(pocet_zaznamov - MAX_POCET_ZAZNAMOV).ToListAsync();
+                _context.Records.RemoveRange((IEnumerable<Record>)MazaneZaznamy);
+            }
+            
+            return Ok();
+        }
+
 
     }
 }
