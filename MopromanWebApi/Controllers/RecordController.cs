@@ -43,6 +43,7 @@ namespace MopromanWebApi.Controllers
             {
                 var orders = await _context.Records.Where(reccord => reccord.DateTime <= dateEnd && reccord.DateTime >= dateStart && reccord.PecId == pecId && ((zmena == null || zmena == "VSETKY") ? true : zmena == reccord.Zmena)).ToListAsync();
                 //IList<Record> orders = await _context.Records.Where(record => record.DateTime > OD).ToListAsync<Record>(); //GetPeriodOrdersAsy; nc(productCode, dateStart.ToUniversalTime(), dateEnd.ToUniversalTime());               
+                orders = this.dajOkamzituSpotrebu(orders);
                 orders = Helpers.RedukujPocetHodnot(orders);                
                 return Ok(orders);
 
@@ -52,6 +53,28 @@ namespace MopromanWebApi.Controllers
             {
                 return NotFound();
             }
+        }
+
+        private List<Record> dajOkamzituSpotrebu(List<Record> pList) {
+
+            int DLZKA = pList.Count;
+            double? Pi=0,Pii = 0;
+            List <Record> result = pList;
+            if (DLZKA == 0) return result;
+            double dii = 5000 / 1000; //prevod z ms na sekundy
+            double? p0 = pList[0].Vykon;
+            result[0].OkamzitaSpotreba = (float)(1000*p0*dii);
+            
+            for (int i = 1; i < DLZKA-1; i++) {
+                DateTime dti = pList[i].DateTime;
+                DateTime dtii = pList[i+1].DateTime;
+                dii = (dtii - dti).TotalMilliseconds/1000; //prevod z ms na sekundy
+                Pi = pList[i].Vykon;
+                Pii = pList[i + 1].Vykon;
+                result[i].OkamzitaSpotreba = (float)(1000*(Pi+Pii)*dii/2);
+            }
+
+            return result;
         }
 
 

@@ -50,6 +50,7 @@ public partial class MopromanDbContext : DbContext
             entity.Property(e => e.TeplotaP2).HasColumnName("teplota_p2");
             entity.Property(e => e.Tlak).HasColumnName("tlak");
             entity.Property(e => e.Vykon).HasColumnName("vykon");
+            //entity.Property(e => e.OkamzitaSpotreba).HasDefaultValue(null);
             entity.Property(e => e.Zmena)
                 .HasMaxLength(10)
                 .IsUnicode(false)

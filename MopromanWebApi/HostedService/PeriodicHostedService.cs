@@ -66,9 +66,9 @@ class PeriodicHostedService : BackgroundService
                 _errorCount++;
                 _logger.LogInformation(
                     
-                    $"\nExExExExExExExExExExExExExExExExExExExExExExExExExEx\n" +
-                    $"Failed to execute PeriodicHostedService with exception message {ex.Message}. Good luck next round!" +
-                    $"\nExExExExExExExExExExExExExExExExExExExExExExExExExEx\n");
+                    $"\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
+                    $"Failed to execute PeriodicHostedService with exception message:\n {ex.Message}.\n Good luck next round!" +
+                    $"\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MopromanWebApi.Models;
 
@@ -40,4 +41,9 @@ public partial class Record
     public float? TeplotaOkruh { get; set; }
 
     public float? PrietokVody { get; set; }
+
+    //necita sa z DB; sluzi na ulozenie prepocitanych hodnot klientskej aplikacii; prepocty robi API
+    [NotMapped]
+    public float OkamzitaSpotreba { get; set; }
+
 }
